@@ -326,7 +326,7 @@ onMounted(validate);
 
         <button
           v-if="enableSharing && canCopyShareLink"
-          @click.prevent="() => copyShareLink()"
+          @click.prevent="copyShareLink()"
           class="text-green-400 ml-1 mr-2"
         >
           Copy Share link
