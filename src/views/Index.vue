@@ -1,8 +1,12 @@
 <script lang="ts" setup>
-// Get list of registered validators
 import { Abolish, ParseRules } from "abolish";
 import { computed, onMounted, Ref, ref, watch } from "vue";
+import { registerAllValidators } from "abolish/src/ValidatorHelpers";
 
+// Register all validators
+registerAllValidators(Abolish);
+
+// Get list of registered validators
 const validators = Object.keys(Abolish.getGlobalValidators())
   .filter((v) => !["$inline"].includes(v))
   .sort();
