@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { useClipboard } from "@vueuse/core";
 import { Abolish, ParseRules } from "abolish";
-import { computed, onMounted, Ref, ref, watch } from "vue";
+import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
 import { registerAllValidators } from "abolish/src/ValidatorHelpers";
+import { useRoute } from "vue-router";
 
 // Register all validators
 registerAllValidators(Abolish);
@@ -17,6 +19,26 @@ const textareaClass =
 
 // Initialize the validator
 const abolish = new Abolish();
+
+const $route = useRoute();
+
+// Set data from query string
+// I.e Shareable link
+onBeforeMount(() => {
+  if ($route.query.hasOwnProperty("data")) {
+    let d = $route.query.data as string;
+    try {
+      data.value = atob(d);
+    } catch (e) {}
+  }
+
+  if ($route.query.hasOwnProperty("rules")) {
+    let r = $route.query.rules as string;
+    try {
+      rules.value = atob(r);
+    } catch (e) {}
+  }
+});
 
 /**
  * Check if json is valid
@@ -158,12 +180,53 @@ function parseRules() {
   rules.value = toJson(ParseRules(fromJson(rules.value)));
 }
 
+function clearData() {
+  if (!confirm("Are you sure you want to clear data?")) return;
+  data.value = toJson({});
+}
+
+function clearRules() {
+  if (!confirm("Are you sure you want to clear rules?")) return;
+  rules.value = toJson({});
+}
+
+const enableSharing = ref(true);
+const shareLink = computed(() => {
+  try {
+    return (
+      window.location.origin +
+      window.location.pathname +
+      "?data=" +
+      btoa(data.value) +
+      "&rules=" +
+      btoa(rules.value)
+    );
+  } catch (e) {
+    enableSharing.value = false;
+    return "";
+  }
+});
+
+const {
+  copy: copyShareLink,
+  copied: hasCopiedShareLink,
+  isSupported: canCopyShareLink
+} = useClipboard({ source: shareLink });
+
 onMounted(validate);
 </script>
 
 <template>
   <div class="mx-auto my-10 px-5">
-    <h1 class="text-3xl text-center tracking-wider">Abolish Validator PlayGround</h1>
+    <div class="flex justify-center flex-col md:flex-row">
+      <img
+        src="/abolish-white.svg"
+        class="flex-initial mx-auto md:mx-0 w-[130px] h-[50px]"
+      />
+      <h1 class="flex-initial text-3xl text-center tracking-wider inline mt-0 md:mt-2">
+        PlayGround
+      </h1>
+    </div>
 
     <div class="text-sm text-center">
       <a href="https://abolish.trapcode.io" target="_blank" class="text-green-400"
@@ -190,8 +253,15 @@ onMounted(validate);
     <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-5 lg:space-x-10">
       <div class="col-span-1">
         <label for="data" class="text-yellow-400"
-          >Data: <span v-if="dataHasError" class="text-red-500">Has error!</span></label
-        >
+          >Data: <span v-if="dataHasError" class="text-red-500">Has error!</span>
+
+          <button
+            @click.prevent="clearData"
+            class="float-right text-sm text-green-400 hover:text-green-500"
+          >
+            clear
+          </button>
+        </label>
         <textarea
           class="leading-6 text-green-900"
           :class="{ 'bg-red-100': dataHasError, [textareaClass]: true }"
@@ -201,15 +271,24 @@ onMounted(validate);
         ></textarea>
       </div>
       <div class="col-span-1">
-        <label for="rules" class="text-yellow-400">
+        <div for="rules" class="text-yellow-400">
           Rules: <span v-if="rulesHasError" class="text-red-500">Has error!</span>
-          <button
-            @click.prevent="parseRules"
-            class="float-right text-sm text-green-400 hover:text-green-500"
-          >
-            Parse Rules
-          </button>
-        </label>
+          <div class="float-right">
+            <button
+              @click.prevent="clearRules"
+              class="text-sm text-green-400 hover:text-green-500"
+            >
+              clear
+            </button>
+            <span class="text-gray-500 mx-1">-</span>
+            <button
+              @click.prevent="parseRules"
+              class="text-sm text-green-400 hover:text-green-500"
+            >
+              Parse Rules
+            </button>
+          </div>
+        </div>
         <textarea
           class="leading-6 text-blue-900"
           :class="{ 'bg-red-100': rulesHasError, [textareaClass]: true }"
@@ -240,5 +319,33 @@ onMounted(validate);
         ></textarea>
       </div>
     </div>
+
+    <div class="my-5">
+      <h5 class="text-sm font-medium mb-2">
+        Share your data and rules with your friends!
+
+        <button
+          v-if="enableSharing && canCopyShareLink"
+          @click.prevent="copyShareLink"
+          class="text-green-400 ml-1 mr-2"
+        >
+          Copy Share link
+        </button>
+
+        <span v-if="hasCopiedShareLink" class="text-yellow-400"
+          >#Copied to clipboard!</span
+        >
+      </h5>
+
+      <input type="text" :value="shareLink" readonly class="" />
+    </div>
   </div>
 </template>
+
+<style scoped>
+input {
+  @apply text-sm px-3 py-3 bg-gray-900 border border-gray-700 border-opacity-70 rounded w-full text-gray-500;
+  @apply focus:outline-none;
+  @apply hover:border-green-500 hover:border-opacity-50;
+}
+</style>
