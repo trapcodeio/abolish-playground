@@ -1,3 +1,6 @@
-# Vite + Vue 3 + Tailwindcss + Vue Router
+# Abolish Playground
 
-This template should help get you started developing with Vue 3, Typescript, and Tailwindcss in Vite.
+
+Abolish Playground Created with **Vue**
+
+Link: [Abolish Playground](https://abolish-playground.trapcode.io/)

@@ -4,6 +4,7 @@ import { Abolish, ParseRules } from "abolish";
 import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
 import { registerAllValidators } from "abolish/src/ValidatorHelpers";
 import { useRoute } from "vue-router";
+import { fromJson, isValidJson, toJson } from "../functions";
 
 // Register all validators
 registerAllValidators(Abolish);
@@ -12,10 +13,6 @@ registerAllValidators(Abolish);
 const validators = Object.keys(Abolish.getGlobalValidators())
   .filter((v) => !["$inline"].includes(v))
   .sort();
-
-// Textarea class to reduce redundant code
-const textareaClass =
-  "w-full rounded shadow-lg border-2 border-gray-900 p-4 font-mono text-xs text-black";
 
 // Initialize the validator
 const abolish = new Abolish();
@@ -41,80 +38,46 @@ onBeforeMount(() => {
 });
 
 /**
- * Check if json is valid
- * @param data
- * @returns {boolean}
- */
-function isValidJson(data: any) {
-  try {
-    JSON.parse(data);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-/**
- * Convert object to json
- * @param data
- * @returns {string}
- */
-function toJson(data: any) {
-  return JSON.stringify(data, null, 2);
-}
-
-/**
- * Convert json to object
- * @param data
- * @returns {any}
- */
-function fromJson(data: string) {
-  return JSON.parse(data);
-}
-
-/**
  * ============================================================================
  * SETUP
  * ============================================================================
  */
+const defaultData = toJson({
+  email: "john@example.com",
+  name: "John Doe",
+  phone: "+1 (123) 456-7890",
+  address: {
+    street: "123 Main St",
+    city: "Anytown",
+    state: "CA",
+    zip: "12345"
+  },
+  jsonDump: '{"verified": true}',
+  verified: "02/05/2020",
+  registered: "02/05/2020"
+});
+
+const defaultRules = toJson({
+  "*": "required|typeof:string",
+  email: "email",
+  name: "minLength:2|maxLength:10",
+  "address.state": "minLength:2|maxLength:2",
+  "address.zip": "number|string:toString",
+
+  jsonDump: "json|jsonDecode",
+  verified: "date",
+  registered: "date:cast",
+
+  $include: ["phone", "address.city"]
+});
 
 /**
  * ===== Variables =====
  */
 let timeout = -1;
 const result = ref(toJson([]));
-const data = ref(
-  toJson({
-    email: "john@example.com",
-    name: "John Doe",
-    phone: "+1 (123) 456-7890",
-    address: {
-      street: "123 Main St",
-      city: "Anytown",
-      state: "CA",
-      zip: "12345"
-    },
-    jsonDump: '{"verified": true}',
-    verified: "02/05/2020",
-    registered: "02/05/2020"
-  })
-);
-
-const rules = ref(
-  toJson({
-    "*": "required|typeof:string",
-    email: "email",
-    name: "minLength:2|maxLength:10",
-    "address.state": "minLength:2|maxLength:2",
-    "address.zip": "number|string:toString",
-
-    jsonDump: "json|jsonDecode",
-    verified: "date",
-    registered: "date:cast",
-
-    $include: ["phone", "address.city"]
-  })
-);
+const data = ref(defaultData);
+const rules = ref(defaultRules);
 
 /**
  * ===== Computed =====
@@ -190,7 +153,6 @@ function clearRules() {
   rules.value = toJson({});
 }
 
-const enableSharing = ref(true);
 const shareLink = computed(() => {
   try {
     return (
@@ -202,9 +164,14 @@ const shareLink = computed(() => {
       btoa(rules.value)
     );
   } catch (e) {
-    enableSharing.value = false;
     return "";
   }
+});
+
+const enableSharing = computed(() => {
+  if (data.value === defaultData && rules.value === defaultRules) return false;
+
+  return shareLink.value.length > 0;
 });
 
 const {
@@ -264,7 +231,7 @@ onMounted(validate);
         </label>
         <textarea
           class="leading-6 text-green-900"
-          :class="{ 'bg-red-100': dataHasError, [textareaClass]: true }"
+          :class="{ 'bg-red-100': dataHasError }"
           @change="validate"
           v-model="data"
           id="data"
@@ -291,13 +258,13 @@ onMounted(validate);
         </div>
         <textarea
           class="leading-6 text-blue-900"
-          :class="{ 'bg-red-100': rulesHasError, [textareaClass]: true }"
+          :class="{ 'bg-red-100': rulesHasError }"
           @change="validate"
           v-model="rules"
           id="rules"
         ></textarea>
       </div>
-      <div class="col-span-1 md:col-span-2 lg:col-span-1 md:h-20">
+      <div class="col-span-1 md:col-span-2 lg:col-span-1">
         <label for="result" class="text-yellow-500">
           Result:
           <span
@@ -311,7 +278,6 @@ onMounted(validate);
           v-model="result"
           id="result"
           :class="{
-            [textareaClass]: true,
             'bg-red-200': resultHasError,
             'bg-green-200': !resultHasError
           }"
@@ -320,12 +286,12 @@ onMounted(validate);
       </div>
     </div>
 
-    <div class="my-5">
+    <div v-if="enableSharing" class="my-5 relative">
       <h5 class="text-sm font-medium mb-2">
         Share your data and rules with your friends!
 
         <button
-          v-if="enableSharing && canCopyShareLink"
+          v-if="canCopyShareLink"
           @click.prevent="copyShareLink()"
           class="text-green-400 ml-1 mr-2"
         >
@@ -347,5 +313,11 @@ input {
   @apply text-sm px-3 py-3 bg-gray-900 border border-gray-700 border-opacity-70 rounded w-full text-gray-500;
   @apply focus:outline-none;
   @apply hover:border-green-500 hover:border-opacity-50;
+}
+
+textarea {
+  @apply focus:outline-none focus:ring-2 ring-green-700;
+  @apply w-full rounded shadow-lg border-2 border-gray-900 p-4 font-mono text-xs text-black;
+  @apply h-[400px] md:h-[450px] lg:h-[600px];
 }
 </style>

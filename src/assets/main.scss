@@ -3,24 +3,6 @@ body {
   @apply text-white;
 }
 
-textarea {
-  min-height: 600px;
-}
-
 textarea:disabled {
   cursor: text;
-}
-
-/* Set textarea min-height 400px on mobile */
-@media screen and (max-width: 600px) {
-  textarea {
-    min-height: 400px;
-  }
-}
-
-/* Set textarea min-height 500px on medium size devices */
-@media screen and (max-width: 1022px) {
-  textarea {
-    min-height: 450px;
-  }
 }
