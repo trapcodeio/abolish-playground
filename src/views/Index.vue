@@ -1,6 +1,240 @@
+<script lang="ts" setup>
+// Get list of registered validators
+import { Abolish, ParseRules } from "abolish";
+import { computed, onMounted, Ref, ref, watch } from "vue";
+
+const validators = Object.keys(Abolish.getGlobalValidators())
+  .filter((v) => !["$inline"].includes(v))
+  .sort();
+
+// Textarea class to reduce redundant code
+const textareaClass =
+  "w-full rounded shadow-lg border-2 border-gray-900 p-4 font-mono text-xs text-black";
+
+// Initialize the validator
+const abolish = new Abolish();
+
+/**
+ * Check if json is valid
+ * @param data
+ * @returns {boolean}
+ */
+function isValidJson(data: any) {
+  try {
+    JSON.parse(data);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Convert object to json
+ * @param data
+ * @returns {string}
+ */
+function toJson(data: any) {
+  return JSON.stringify(data, null, 2);
+}
+
+/**
+ * Convert json to object
+ * @param data
+ * @returns {any}
+ */
+function fromJson(data: string) {
+  return JSON.parse(data);
+}
+
+/**
+ * ============================================================================
+ * SETUP
+ * ============================================================================
+ */
+
+/**
+ * ===== Variables =====
+ */
+let timeout = -1;
+const result = ref(toJson([]));
+const data = ref(
+  toJson({
+    email: "john@example.com",
+    name: "John Doe",
+    phone: "+1 (123) 456-7890",
+    address: {
+      street: "123 Main St",
+      city: "Anytown",
+      state: "CA",
+      zip: "12345"
+    },
+    jsonDump: '{"verified": true}',
+    verified: "02/05/2020",
+    registered: "02/05/2020"
+  })
+);
+
+const rules = ref(
+  toJson({
+    "*": "required|typeof:string",
+    email: "email",
+    name: "minLength:2|maxLength:10",
+    "address.state": "minLength:2|maxLength:2",
+    "address.zip": "number|string:toString",
+
+    jsonDump: "json|jsonDecode",
+    verified: "date",
+    registered: "date:cast",
+
+    $include: ["phone", "address.city"]
+  })
+);
+
+/**
+ * ===== Computed =====
+ */
+const dataHasError = computed(() => {
+  return !isValidJson(data.value);
+});
+
+const rulesHasError = computed(() => {
+  return !isValidJson(rules.value);
+});
+
+const resultHasError = computed(() => {
+  const r = fromJson(result.value);
+  if (typeof r === "object" && r.hasOwnProperty("error")) {
+    return true;
+  } else if (Array.isArray(r) && r[0]) {
+    return true;
+  }
+});
+
+/**
+ * ===== Watchers =====
+ */
+watch(data, () => onDataChange(data));
+watch(rules, () => onDataChange(rules));
+
+/**
+ * ===== Functions
+ */
+function onDataChange(ref: Ref<any>) {
+  // Clear timeout if exits
+  if (timeout !== -1) clearTimeout(timeout);
+  // set new timeout
+  timeout = setTimeout(() => {
+    if (!isValidJson(ref.value)) return;
+
+    // validate
+    validate();
+
+    // refactor
+    const refactored = toJson(fromJson(ref.value));
+    if (refactored !== ref.value) {
+      ref.value = refactored;
+    }
+  }, 1000);
+}
+
+function validate() {
+  if (!isValidJson(data.value) || !isValidJson(rules.value)) return;
+
+  try {
+    result.value = toJson(abolish.validate(fromJson(data.value), fromJson(rules.value)));
+  } catch (e: any) {
+    result.value = toJson({ error: e.message });
+  }
+}
+
+function parseRules() {
+  const shouldParse = confirm("Are you sure you want to parse rules to object?");
+  if (!shouldParse) return;
+
+  rules.value = toJson(ParseRules(fromJson(rules.value)));
+}
+
+onMounted(validate);
+</script>
+
 <template>
-  <div class="pl-5 pt-5">
-    <h1 class="text-xl">Working Perfectly!</h1>
-    <h4 class="text-lg">Index.vue</h4>
+  <div class="mx-auto my-10 px-5">
+    <h1 class="text-3xl text-center tracking-wider">Abolish Validator PlayGround</h1>
+
+    <div class="text-sm text-center">
+      <a href="https://abolish.trapcode.io" target="_blank" class="text-green-400"
+        >Abolish Documentation</a
+      >
+    </div>
+
+    <div class="my-10 text-center">
+      <h6 class="text-xs text-yellow-400">
+        Registered Validators: ({{ validators.length }})
+      </h6>
+
+      <div class="flex flex-wrap gap-y-1 gap-x-2 mt-2 justify-center">
+        <template v-for="v in validators">
+          <button
+            class="text-xs bg-gray-700 text-green-300 hover:text-yellow-400 px-2 py-0.5 rounded"
+          >
+            {{ v }}
+          </button>
+        </template>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-5 lg:space-x-10">
+      <div class="col-span-1">
+        <label for="data" class="text-yellow-400"
+          >Data: <span v-if="dataHasError" class="text-red-500">Has error!</span></label
+        >
+        <textarea
+          class="leading-6 text-green-900"
+          :class="{ 'bg-red-100': dataHasError, [textareaClass]: true }"
+          @change="validate"
+          v-model="data"
+          id="data"
+        ></textarea>
+      </div>
+      <div class="col-span-1">
+        <label for="rules" class="text-yellow-400">
+          Rules: <span v-if="rulesHasError" class="text-red-500">Has error!</span>
+          <button
+            @click.prevent="parseRules"
+            class="float-right text-sm text-green-400 hover:text-green-500"
+          >
+            Parse Rules
+          </button>
+        </label>
+        <textarea
+          class="leading-6 text-blue-900"
+          :class="{ 'bg-red-100': rulesHasError, [textareaClass]: true }"
+          @change="validate"
+          v-model="rules"
+          id="rules"
+        ></textarea>
+      </div>
+      <div class="col-span-1 md:col-span-2 lg:col-span-1 md:h-20">
+        <label for="result" class="text-yellow-500">
+          Result:
+          <span
+            class="text-sm"
+            :class="[resultHasError ? 'text-red-400' : 'text-green-400']"
+          >
+            {{ resultHasError ? "Failed Validation!" : "Passed Validation!" }}
+          </span>
+        </label>
+        <textarea
+          v-model="result"
+          id="result"
+          :class="{
+            [textareaClass]: true,
+            'bg-red-200': resultHasError,
+            'bg-green-200': !resultHasError
+          }"
+          disabled
+        ></textarea>
+      </div>
+    </div>
   </div>
 </template>
