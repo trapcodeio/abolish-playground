@@ -1,13 +1,10 @@
 <script lang="ts" setup>
 import { useClipboard } from "@vueuse/core";
-import { Abolish, ParseRules } from "abolish";
+import { ParseRules } from "abolish";
 import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
-import { registerAllValidators } from "abolish/src/ValidatorHelpers";
 import { useRoute } from "vue-router";
 import { fromJson, isValidJson, toJson } from "../functions";
-
-// Register all validators
-registerAllValidators(Abolish);
+import Abolish from "../abolish";
 
 // Get list of registered validators
 const validators = Object.keys(Abolish.getGlobalValidators())
@@ -17,6 +14,7 @@ const validators = Object.keys(Abolish.getGlobalValidators())
 // Initialize the validator
 const abolish = new Abolish();
 
+// Get $route
 const $route = useRoute();
 
 // Set data from query string

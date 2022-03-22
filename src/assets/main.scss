@@ -6,3 +6,10 @@ body {
 textarea:disabled {
   cursor: text;
 }
+
+
+#debug {
+  @apply leading-6 w-full my-10 text-xs m-0 p-3 container font-mono
+  text-yellow-500 bg-gray-800 flex-wrap
+  overflow-x-scroll mx-auto rounded text-left tracking-wide;
+}
