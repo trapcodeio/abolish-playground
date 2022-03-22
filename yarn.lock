@@ -281,10 +281,15 @@
   dependencies:
     vue-demi "*"
 
-abolish@^4.9.1:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/abolish/-/abolish-4.9.1.tgz#77d3f2ae5eff56713ecc095dbbbd18557ab4d5d4"
-  integrity sha512-xio6dvH8t9pDkxa1Va6/MNQZl2CMpbWwRVH4JSwp9PLour060D3SX0l6Dk2rqJChXxUXELzbEGVaFtuUY0zF/w==
+abolish-vue@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-1.0.2.tgz#bf8e24b2789622791e939e98fdf65b24b2b149d3"
+  integrity sha512-xBCzuyFdL9HUfePtVw1RcjIPadZqSUvHfErnnMS+0c+Tv4MYbPpaVYdfs4JlLHQzx3pOZO7dXuhOgKdVtDjcqA==
+
+abolish@^4.10.1:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/abolish/-/abolish-4.10.1.tgz#110fa5fe5f8033d28f53806f2f59308b5bc453d3"
+  integrity sha512-5vQ2/2w+cPtOwiBV4n708VIfEIB+NIEp0cuXaa/wgO9RAgHNpnKcsJMs6aMkcz5IbwUhAiFjlkfugcZcrwNVBg==
   dependencies:
     lodash "^4.17.21"
 
