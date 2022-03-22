@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vReactive, vRefAsArray, vRefExtended } from "abolish-vue";
 import { computed } from "vue";
-import { $inline } from "abolish/src/Functions";
 
 /**
  * Default Data
@@ -17,13 +16,7 @@ const formData = {
  */
 const [email, emailError, validatedEmail] = vRefAsArray(formData.email, [
   "string:toLowerCase|email",
-  { $name: "Email Address" },
-  () => {
-    return "number";
-  },
-  $inline((email, { error }) =>
-    email === "johndoe@gmail.com" ? true : error(`Email is not correct!`)
-  )
+  { $name: "Email Address" }
 ]);
 
 const [age, ageError, validatedAge] = vRefAsArray<string, number>(
