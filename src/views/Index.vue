@@ -230,7 +230,7 @@ onMounted(validate);
           </button>
         </label>
         <textarea
-          class="leading-6 text-green-900"
+          class="text-green-900"
           :class="{ 'bg-red-100': dataHasError }"
           @change="validate"
           v-model="data"
@@ -257,7 +257,7 @@ onMounted(validate);
           </div>
         </div>
         <textarea
-          class="leading-6 text-blue-900"
+          class="text-blue-900"
           :class="{ 'bg-red-100': rulesHasError }"
           @change="validate"
           v-model="rules"
@@ -277,6 +277,7 @@ onMounted(validate);
         <textarea
           v-model="result"
           id="result"
+          class="text-black"
           :class="{
             'bg-red-200': resultHasError,
             'bg-green-200': !resultHasError
@@ -317,7 +318,7 @@ input {
 
 textarea {
   @apply focus:outline-none focus:ring-2 ring-green-700;
-  @apply w-full rounded shadow-lg border-2 border-gray-900 p-4 font-mono text-xs text-black;
+  @apply w-full rounded shadow-lg border-2 border-gray-900 p-4 font-mono text-xs leading-6;
   @apply h-[400px] md:h-[450px] lg:h-[600px];
 }
 </style>
