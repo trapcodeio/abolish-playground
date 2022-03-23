@@ -31,6 +31,12 @@ const ageExtended = vRefExtended("20", "number|min:18|max:50", {
   name: "Age"
 });
 
+setTimeout(() => {
+  console.log(ageExtended.value);
+  console.log(ageExtended.error);
+  console.log(ageExtended.validated);
+}, 1000);
+
 const ageExtendedError = computed(() => ageExtended.error);
 const ageExtendedValidated = computed(() => ageExtended.validated);
 

@@ -281,10 +281,10 @@
   dependencies:
     vue-demi "*"
 
-abolish-vue@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-1.0.4.tgz#19ba7b625bc0bebc5df09c261b79f8d7d1797030"
-  integrity sha512-UfJj6nUnUfdNHfv7ZPPfv2NZu6RbhNlnFw16DrsVzssWKTL3Wv1i88Qxlr4RoXF1N+hfCkolaouAbtwigUg0tQ==
+abolish-vue@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-1.0.7.tgz#d3a278f2e01d4602ac51086c57b96e039e60d675"
+  integrity sha512-4weEe8NfHKIHOiJKZLgoRcdlW86RHbCq0ZqKfIk8AExe3pD831OfAAWCdpZXvb3eVUw4nsGjQKUrlxCmzTukKg==
 
 abolish@^4.10.1:
   version "4.10.1"
