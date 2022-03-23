@@ -4,8 +4,8 @@ import router from "./router";
 import "./tailwind.css";
 import "./assets/main.scss";
 import Debug from "revue-components/vues/Debug.vue";
-import { AbolishPlugin } from "abolish-vue";
 import { extendAbolish } from "./abolish";
+import { AbolishPlugin } from "abolish-vue";
 
 const app = createApp(App);
 

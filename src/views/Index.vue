@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useClipboard } from "@vueuse/core";
-import { ParseRules } from "abolish";
+import { ParseRules } from "abolish/index.esm";
 import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { fromJson, isValidJson, toJson } from "../functions";

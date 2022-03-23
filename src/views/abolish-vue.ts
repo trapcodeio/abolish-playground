@@ -180,7 +180,7 @@ export function vRefExtended<IN, OUT = IN>(
  * =============================================================
  */
 export type AbolishPlugin = {
-  abolish?: () => InstanceType<typeof Abolish>;
+  abolish?: () => InstanceType<typeof Abolish> | typeof Abolish;
   init?: () => void;
 };
 
