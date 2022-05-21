@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vReactive, vRefAsArray, vRefExtended } from "abolish-vue";
-import { computed } from "vue";
+import { computed} from "vue";
 
 /**
  * Default Data
@@ -14,12 +14,12 @@ const formData = {
 /**
  * Validated Ref
  */
-const [email, emailError, validatedEmail] = vRefAsArray(formData.email, [
+const [email, emailError] = vRefAsArray(formData.email, [
   "string:toLowerCase|email",
   { $name: "Email Address" }
 ]);
 
-const [age, ageError, validatedAge] = vRefAsArray<string, number>(
+const [age, ageError] = vRefAsArray<string, number>(
   "18",
   "number|min:18|max:50",
   {
@@ -30,12 +30,6 @@ const [age, ageError, validatedAge] = vRefAsArray<string, number>(
 const ageExtended = vRefExtended("20", "number|min:18|max:50", {
   name: "Age"
 });
-
-setTimeout(() => {
-  console.log(ageExtended.value);
-  console.log(ageExtended.error);
-  console.log(ageExtended.validated);
-}, 1000);
 
 const ageExtendedError = computed(() => ageExtended.error);
 const ageExtendedValidated = computed(() => ageExtended.validated);
@@ -53,22 +47,25 @@ const {
 );
 
 // const form = reactive(formData);
+
+// const someRef = ref("mail@example.com");
+// const phoneError = rTest(someRef, "email");
 </script>
 
 <template>
   <div class="mx-auto my-10 px-5">
     <div class="flex justify-center flex-col">
-      <img src="/abolish-white.svg" class="flex-initial mx-auto w-[130px] h-[50px]" />
+      <img src="/abolish-white.svg" class="flex-initial mx-auto w-[130px] h-[50px]"  alt="Abolish Logo"/>
       <h1 class="flex-initial text-3xl text-center tracking-wider inline mt-0">
         Vue Plugin Test
       </h1>
     </div>
 
-    <form action="">
+    <form>
       <h3 class="text-2xl text-green-500 mb-2">Object Form</h3>
 
       <div class="grid grid-cols-3 gap-3 my-5">
-        <template v-for="(v, k) in form" :key="k">
+        <template v-for="(_v, k) in form" :key="k">
           <div class="col-span-1">
             <label class="text-sm text-gray-400 block capitalize">{{ k }}:</label>
             <input type="text" v-model="form[k]" />
@@ -82,9 +79,7 @@ const {
 
       <h3 class="text-2xl text-green-500 my-3">Age Ref</h3>
       <input type="text" v-model="age" />
-      <p class="text-xs text-red-500" v-if="ageError">
-        {{ ageError.message }}
-      </p>
+      <p class="text-xs text-red-500" v-if="ageError">{{ ageError.message }}</p>
 
       <h3 class="text-2xl text-green-500 my-3">Age Extended</h3>
       <input type="text" v-model="ageExtended" />
@@ -94,7 +89,7 @@ const {
     </form>
   </div>
 
-  <Debug
+  <!-- <Debug
     :data="{
       'Email Validation': {
         original: email,
@@ -111,9 +106,13 @@ const {
         validated: ageExtendedValidated,
         error: ageExtendedError || false
       },
-      'Form Validation': { original: form, validated: validatedForm, error: formError }
+      'Form Validation': {
+        original: form,
+        validated: validatedForm,
+        error: formError
+      }
     }"
-  />
+  /> -->
 </template>
 
 <style scoped>

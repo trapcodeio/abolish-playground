@@ -56,17 +56,24 @@ const defaultData = toJson({
 });
 
 const defaultRules = toJson({
-  "*": "required|typeof:string",
+  $: "required|typeof:string",
   email: "email",
   name: "minLength:2|maxLength:10",
-  "address.state": "minLength:2|maxLength:2",
-  "address.zip": "number|string:toString",
-
+  address: {
+    typeof: "object",
+    object: {
+      $: "required|typeof:string",
+      street: "minLength:2|maxLength:20",
+      city: "minLength:2|maxLength:20",
+      state: "minLength:2|maxLength:2",
+      zip: "number|string:toString"
+    },
+  },
   jsonDump: "json|jsonDecode",
   verified: "date",
   registered: "date:cast",
 
-  $include: ["phone", "address.city"]
+  $include: ["phone"]
 });
 
 /**
@@ -124,14 +131,17 @@ function onDataChange(ref: Ref<any>) {
   }, 1000);
 }
 
+/**
+ * Function that validates the data
+ */
 function validate() {
   if (!isValidJson(data.value) || !isValidJson(rules.value)) return;
-
-  try {
-    result.value = toJson(abolish.validate(fromJson(data.value), fromJson(rules.value)));
-  } catch (e: any) {
+  // convert to validateAsync
+  abolish.validateAsync(fromJson(data.value), fromJson(rules.value)).then((r) => {
+    result.value = toJson(r);
+  }).catch((e: any) => {
     result.value = toJson({ error: e.message });
-  }
+  });
 }
 
 function parseRules() {
@@ -187,7 +197,7 @@ onMounted(validate);
       <img
         src="/abolish-white.svg"
         class="flex-initial mx-auto md:mx-0 w-[130px] h-[50px]"
-      />
+       alt="Abolish Logo"/>
       <h1 class="flex-initial text-3xl text-center tracking-wider inline mt-0 md:mt-2">
         PlayGround
       </h1>
@@ -236,7 +246,7 @@ onMounted(validate);
         ></textarea>
       </div>
       <div class="col-span-1">
-        <div for="rules" class="text-yellow-400">
+        <div  class="text-yellow-400">
           Rules: <span v-if="rulesHasError" class="text-red-500">Has error!</span>
           <div class="float-right">
             <button
