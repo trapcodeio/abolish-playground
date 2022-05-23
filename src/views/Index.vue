@@ -65,7 +65,7 @@ const defaultRules = toJson({
       $: "required|typeof:string",
       street: "minLength:2|maxLength:20",
       city: "minLength:2|maxLength:20",
-      state: "minLength:2|maxLength:2",
+      state: "size:2",
       zip: "number|string:toString"
     },
   },
