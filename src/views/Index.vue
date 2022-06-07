@@ -5,6 +5,7 @@ import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { fromJson, isValidJson, toJson } from "../functions";
 import Abolish from "../abolish";
+import pkg from "../../package.json";
 
 // Get list of registered validators
 const validators = Object.keys(Abolish.getGlobalValidators())
@@ -207,6 +208,8 @@ onMounted(validate);
       <a href="https://abolish.trapcode.io" target="_blank" class="text-green-400"
         >Abolish Documentation</a
       >
+      <br>
+      <small>VERSION: <strong>({{pkg.dependencies.abolish}})</strong></small>
     </div>
 
     <div class="my-10 text-center">
