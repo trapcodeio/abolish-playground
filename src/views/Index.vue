@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useClipboard } from "@vueuse/core";
-import { ParseRules } from "abolish/index.esm";
+import { Schema } from "abolish/index.esm";
 import { computed, onBeforeMount, onMounted, Ref, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { fromJson, isValidJson, toJson } from "../functions";
@@ -149,7 +149,7 @@ function parseRules() {
   const shouldParse = confirm("Are you sure you want to parse rules to object?");
   if (!shouldParse) return;
 
-  rules.value = toJson(ParseRules(fromJson(rules.value)));
+  rules.value = toJson(Schema(fromJson(rules.value)));
 }
 
 function clearData() {
