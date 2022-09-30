@@ -230,10 +230,10 @@ abolish-vue@^2.0.1:
   resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-2.0.1.tgz#5d1b7d3c08fb3efb62a7aa03666b4a531ad0d152"
   integrity sha512-v36FX6Ia1qTwS3Z9QThLw7PHgK+2MaWedN83mRtJxYXdkEqs3MMFwbV3ksymUrEJdrzprvSuUvn+1L8rlo6cog==
 
-abolish@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.1.0.tgz#84c2649a96e7cb4ba648a498e1bf5ba594749c64"
-  integrity sha512-u1VW95TSKgEPl0ggzsrLfJLzSrjgSz8Jh9X6wGt2nsX6xNlLPrL1jSWAcZvuPP9I+NCxC0Nbo5VaBCygmOSJaA==
+abolish@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.1.4.tgz#149ee542a2f5665fade3f5abf6cbd6606db9fa4f"
+  integrity sha512-W1u5HpZoCoLbyfzJEjgHcDzwQ254jntUc6eAbu/VF6pR7E7u+4xpmPYXfFf+gFUx50VsEv4vzb2t/Z2CplvHiw==
   dependencies:
     lodash "^4.17.21"
 
@@ -864,6 +864,15 @@ postcss@^8.4.16:
   version "8.4.16"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.16.tgz#33a1d675fac39941f5f445db0de4db2b6e01d43c"
   integrity sha512-ipHE1XBvKzm5xI7hiHCZJCSugxvsdq2mPnsq5+UF+VHCjiBvtDrlxJfMBToWaP9D5XlgNmcFGqoHmUn0EYEaRQ==
+  dependencies:
+    nanoid "^3.3.4"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
+postcss@^8.4.17:
+  version "8.4.17"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.17.tgz#f87863ec7cd353f81f7ab2dec5d67d861bbb1be5"
+  integrity sha512-UNxNOLQydcOFi41yHNMcKRZ39NeXlr8AxGuZJsdub8vIb12fHzcq37DTU/QtbI6WLxNg2gF9Z+8qtRwTj1UI1Q==
   dependencies:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
