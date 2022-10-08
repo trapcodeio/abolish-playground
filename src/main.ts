@@ -5,7 +5,7 @@ import "./tailwind.css";
 import "./assets/main.scss";
 import Debug from "revue-components/vues/Debug.vue";
 import { extendAbolish } from "./abolish";
-import { AbolishPlugin } from "abolish-vue";
+import { AbolishPlugin } from "abolish-vue/index.esm-bundled";
 
 const app = createApp(App);
 
