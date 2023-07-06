@@ -6,6 +6,7 @@ import { useRoute } from "vue-router";
 import { fromJson, isValidJson, toJson } from "../functions";
 import Abolish from "../abolish";
 import pkg from "../../package.json";
+import { AbolishCompiledObject } from "abolish/src/Compiler";
 
 // Get list of registered validators
 const validators = Object.keys(Abolish.getGlobalValidators())
@@ -84,6 +85,16 @@ let timeout = -1;
 const result = ref(toJson([]));
 const data = ref(defaultData);
 const rules = ref(defaultRules);
+const compiledRules = computed<{
+  error?: any;
+  compiled?: AbolishCompiledObject;
+}>(() => {
+  try {
+    return {error: undefined, compiled: Abolish.compileObject(fromJson(rules.value)) }
+  } catch (e) {
+    return {error: e, compiled: undefined}
+  }
+});
 
 /**
  * ===== Computed =====
@@ -137,12 +148,26 @@ function onDataChange(ref: Ref<any>) {
  */
 function validate() {
   if (!isValidJson(data.value) || !isValidJson(rules.value)) return;
-  // convert to validateAsync
-  abolish.validateAsync(fromJson(data.value), fromJson(rules.value)).then((r) => {
-    result.value = toJson(r);
-  }).catch((e: any) => {
+
+  try {
+    // compile to make sure rules are valid
+    const { compiled, error } = compiledRules.value;
+
+    if (error) {
+      result.value = toJson({ error: error.message });
+      return;
+    }
+
+    const [err, validated] = compiled!.validate(fromJson(data.value));
+
+    if (err) {
+      result.value = toJson({ error: err });
+    } else {
+      result.value = toJson(validated);
+    }
+  } catch (e: any) {
     result.value = toJson({ error: e.message });
-  });
+  }
 }
 
 function parseRules() {
@@ -317,6 +342,8 @@ onMounted(validate);
 
       <input type="text" :value="shareLink" readonly class="" />
     </div>
+
+    <pre >{{ compiledRules }}</pre>
   </div>
 </template>
 
