@@ -13,9 +13,6 @@ const validators = Object.keys(Abolish.getGlobalValidators())
   .filter((v) => !["$inline"].includes(v))
   .sort();
 
-// Initialize the validator
-const abolish = new Abolish();
-
 // Get $route
 const $route = useRoute();
 
@@ -343,7 +340,7 @@ onMounted(validate);
       <input type="text" :value="shareLink" readonly class="" />
     </div>
 
-    <pre >{{ compiledRules }}</pre>
+    <debug :data="{ compiledRules }"/>
   </div>
 </template>
 

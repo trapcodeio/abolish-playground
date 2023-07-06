@@ -13,6 +13,7 @@
     "revue-components": "^2.0.10",
     "sass": "^1.63.6",
     "vue": "^3.3.4",
+    "vue-json-debug": "^1.1.28",
     "vue-router": "^4.2.3"
   },
   "devDependencies": {

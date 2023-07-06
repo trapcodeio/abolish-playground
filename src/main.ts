@@ -6,6 +6,8 @@ import "./assets/main.scss";
 import Debug from "revue-components/vues/Debug.vue";
 import { extendAbolish } from "./abolish";
 import { AbolishPlugin } from "abolish-vue/index.esm-bundled";
+import {useDebugPlugin} from 'vue-json-debug/src/plugin';
+import 'vue-json-debug/src/debug.css';
 
 const app = createApp(App);
 
@@ -14,7 +16,10 @@ app.use(AbolishPlugin, <AbolishPlugin>{
   // abolish: () => new Abolish()
 });
 
-app.component("Debug", Debug);
+useDebugPlugin(app, {
+  registerDebugComponent: true,
+});
+
 
 app.use(router);
 app.mount("#app");

@@ -1177,6 +1177,11 @@ vue-demi@>=0.14.5:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.5.tgz#676d0463d1a1266d5ab5cba932e043d8f5f2fbd9"
   integrity sha512-o9NUVpl/YlsGJ7t+xuqJKx8EBGf1quRhCiT6D/J0pfwmk9zUwYkC7yrF4SZCe6fETvSM3UNL2edcbYrSyc4QHA==
 
+vue-json-debug@^1.1.28:
+  version "1.1.28"
+  resolved "https://registry.yarnpkg.com/vue-json-debug/-/vue-json-debug-1.1.28.tgz#bc3979e73cc06878f584b6450ece69db7fc01aaf"
+  integrity sha512-Q3zq1y2wxLgDtTQfZIbzBLCNTwrbQMSPI8G6eREQjFyp6ZAwtvQUvXmW8nzyEkd8jBcfjAR+vQ2u0g42LcIZCg==
+
 vue-router@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.2.3.tgz#b1680efaea1bf8c45094bd504f4db49ef5b6e8b4"

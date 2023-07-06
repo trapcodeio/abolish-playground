@@ -7,9 +7,20 @@ textarea:disabled {
   cursor: text;
 }
 
+// #debug {
+//   @apply leading-6 w-full my-10 text-xs m-0 p-3 container font-mono
+//   text-yellow-500 bg-gray-800 flex-wrap
+//   overflow-x-scroll mx-auto rounded text-left tracking-wide;
+// }
 
-#debug {
-  @apply leading-6 w-full my-10 text-xs m-0 p-3 container font-mono
-  text-yellow-500 bg-gray-800 flex-wrap
-  overflow-x-scroll mx-auto rounded text-left tracking-wide;
+.vd-debug-component {
+  @apply my-4;
+
+  .vd-header span {
+    @apply text-xs text-gray-400 #{"!important"};
+  }
+
+  .vd-content {
+    @apply text-xs font-mono text-fuchsia-300 flex-wrap rounded;
+  }
 }
