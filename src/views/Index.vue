@@ -340,7 +340,7 @@ onMounted(validate);
       <input type="text" :value="shareLink" readonly class="" />
     </div>
 
-    <debug :data="{ compiledRules }"/>
+    <debug :data="{  }"/>
   </div>
 </template>
 
