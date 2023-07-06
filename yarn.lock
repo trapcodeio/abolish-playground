@@ -360,10 +360,10 @@ abolish-vue@^3.0.1:
   resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-3.0.1.tgz#babbe358453f1c121f1506d76954b6836f0a8eb3"
   integrity sha512-o5izofS94ZQ9b6qJGZRsgcoRy3QpZlpKuerWjww151JlheUa27r9M5REUPBxGhpwYzZDJGEkAmzvEQPvfiKm9A==
 
-abolish@^6.5.1:
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.5.1.tgz#3fbf51bc91f20c4f39c1720fb2714b40959a562c"
-  integrity sha512-238GoXEJVoaGsIahTBFbfeWjD8+hW690QFHjsh81uVJsJEge0HI0cQ6cN2ARNWVd4ixegKxlwLXNIYrTcP0Qog==
+abolish@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.5.2.tgz#8357627b1801a229c9315d0cacfa9a9f9d361416"
+  integrity sha512-pBV1/cIC2vIlNRud1+oPOc/7MIj/SBT2saT5duZvCAQpjFabb1mf++ADKhY2MNAmNK1j6H0hKTYLylLV4+9QZg==
   dependencies:
     lodash "^4.17.21"
 

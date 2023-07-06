@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.2.1",
-    "abolish": "^6.5.1",
+    "abolish": "^6.5.2",
     "abolish-vue": "^3.0.1",
     "revue-components": "^2.0.10",
     "sass": "^1.63.6",
