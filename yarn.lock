@@ -421,10 +421,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
 
-"@types/node@^22.5.1":
-  version "22.5.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.1.tgz#de01dce265f6b99ed32b295962045d10b5b99560"
-  integrity sha512-KkHsxej0j9IW1KKOOAA/XBA0z08UFSrRQHErzEfA3Vgq57eXIMYboIlHJuYIfd+lwCQjtKqUu3UnmKbtUc9yRw==
+"@types/node@^22.5.2":
+  version "22.5.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.2.tgz#e42344429702e69e28c839a7e16a8262a8086793"
+  integrity sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==
   dependencies:
     undici-types "~6.19.2"
 
@@ -678,15 +678,15 @@
   dependencies:
     vue-demi ">=0.14.10"
 
-abolish-vue@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-3.1.1.tgz#a894e2396aee791dec0a1215bfa2914c0ec4d19f"
-  integrity sha512-GgvfzE9udGZ6NTdLACH2wHyIYrAi88/e5iyBGsTvxEWxP/6iYXkLTizbJhHeQYdPjhE3JT2UbrFwlSGC4TzDmA==
+abolish-vue@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/abolish-vue/-/abolish-vue-3.1.2.tgz#544ed9bca6240d73d16bf7b31d8ba7393328b392"
+  integrity sha512-y0rvamAZN6ZoaRG0ecyNfL3JCpPwTLW8fLpXqYHE5xks1OIAcTEgepGURk9zGHBTQSfyexb7J4xj4oE+/C+Etg==
 
-abolish@^6.7.1:
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.7.1.tgz#8637cd9f869b4bac6303c11695f5f2b090b2ba3d"
-  integrity sha512-/F4vQ6sVDgjqgQ9W5fQThNO22UXNjjnnavZRat7Lv+6Ly+E9Q3NR7ejnTLTcl1QnrAMpcWeCuTuqtmHjuEiXmg==
+abolish@^6.7.2:
+  version "6.7.2"
+  resolved "https://registry.yarnpkg.com/abolish/-/abolish-6.7.2.tgz#c430667360d6bcfb36f8d828f9d8fcb53d0b2cac"
+  integrity sha512-LtJo+SDEK7cIwUNZrVIWdFtip7rLqCaZswE99JtWWYTE7vRYuqAiMvVuxSsTGu/k5P2LYTHQahBwF3QFxk/ayA==
   dependencies:
     lodash "^4.17.21"
     tsx "^4.15.5"
