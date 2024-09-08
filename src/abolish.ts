@@ -1,4 +1,4 @@
-import { Abolish } from "abolish/index.esm";
+import { Abolish } from "abolish/esm";
 import { registerAllValidators } from "abolish/src/ValidatorHelpers";
 
 export function extendAbolish() {

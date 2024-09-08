@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import "./tailwind.css";
 import "./assets/main.scss";
-import Debug from "revue-components/vues/Debug.vue";
 import { extendAbolish } from "./abolish";
 import { AbolishPlugin } from "abolish-vue/index.esm-bundled";
 import {useDebugPlugin} from 'vue-json-debug/src/plugin';
